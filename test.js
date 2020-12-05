@@ -1,11 +1,11 @@
-const cabecalhos = ['Nome', 'Sobrenome', 'Escola']
-
-// function imprimiCabecalho(cabecalho, index, array) {
-//     console.log(cabecalho)
-// }
-
-const imprimiCabecalho = (cabecalho, index, array) => {
-    console.log(cabecalho)
+const professor = {
+    name: 'Professor',
+    path: '/professor',
 }
 
-cabecalhos.forEach(imprimiCabecalho)
+// const name = professor.name;
+// const path = professor.path;
+
+const {name, path} = professor;
+
+console.log(name, path)

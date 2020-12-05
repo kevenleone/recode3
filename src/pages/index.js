@@ -1,60 +1,40 @@
-import Head from "next/head"
+import React, { useState, useEffect } from 'react';
 
 export default function Home() {
-  const cabecalhos = ['Nome', 'Sobrenome', 'Escola']
+  const [professors, setProfessors] = useState([]);
+  const headers = ['Id', 'Name', 'CPF', 'Departament'];
 
-  const alunos = [
-    {
-      nome: 'Keven',
-      sobrenome: 'Leone',
-      escola: 'POLI'
-    }, 
-    {
-      nome: 'Clara',
-      sobrenome: 'Leone',
-      escola: 'UPE'
-    }, 
-    {
-      nome: 'Gabriel',
-      sobrenome: 'Leone',
-      escola: 'IFPE'
-    },
-    {
-      nome: 'Gabrixxel',
-      sobrenome: 'Leone',
-      escola: 'IFPE'
-    }
-  ];
+  function getProfessors() {
+    fetch('https://professor-allocation.herokuapp.com/professor')
+      .then((response) => response.json())
+      .then((json) => setProfessors(json));
+  }
 
-  const titulo = 'Aula Recode 3';
+  useEffect(() => {
+    getProfessors();
+  }, []);
 
   return (
-    <div>
-      <Head>
-        <title>{titulo}</title>
-      </Head>
-      <div className="container">
-        <table className="mt-4 table table-striped table-hovered">
-          <thead className="thead-dark">
-            <tr>
-              {cabecalhos.map((cabecalho, index) => {
-                return <th key={index}>{cabecalho}</th>
-              })}
+    <div className="container">
+      <table className="mt-4 table table-striped table-hovered">
+        <thead className="thead-dark">
+          <tr>
+            {headers.map((header, index) => (
+              <th key={index}>{header}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {professors.map((professor) => (
+            <tr key={professor.id}>
+              <td>{professor.id}</td>
+              <td>{professor.name}</td>
+              <td>{professor.cpf}</td>
+              <td>{professor.departament.name}</td>
             </tr>
-          </thead>
-          <tbody>
-              {alunos.map((aluno, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{aluno.nome}</td>
-                    <td>{aluno.sobrenome}</td>
-                    <td>{aluno.escola}</td>
-                  </tr>
-                )
-              })}
-          </tbody>
-        </table>
-      </div>
-      </div>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
